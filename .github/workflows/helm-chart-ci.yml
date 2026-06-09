@@ -1,0 +1,53 @@
+name: Helm chart CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Chart.yaml'
+      - 'values.yaml'
+      - 'values/**'
+      - 'README.md'
+      - '.helmignore'
+      - 'templates/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'Chart.yaml'
+      - 'values.yaml'
+      - 'values/**'
+      - 'README.md'
+      - '.helmignore'
+      - 'templates/**'
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      baseline_version:
+        description: 'First release version when no tags exist (e.g. 1.0.0)'
+        required: false
+      release_tag:
+        description: 'Release tag override (e.g. harbor-v1.0.0)'
+        required: false
+
+concurrency: helm-chart-harbor
+
+jobs:
+  ci:
+    permissions:
+      contents: write
+      pull-requests: read
+    uses: expectedbehaviors/github-actions/.github/workflows/helm-chart-ci.yml@main
+    secrets: inherit
+    with:
+      chart_path: .
+      chart_name: harbor
+      tag_prefix: harbor-v
+      helm_repositories: |
+        harbor=https://helm.goharbor.io
+      helm_repo_name: harbor
+      helm_repo_url: https://helm.goharbor.io
+      publish_enabled: true
+      release_notes_enabled: true
+      initial_version: ${{ github.event.inputs.baseline_version || '' }}
+      release_tag: ${{ github.event.inputs.release_tag || '' }}

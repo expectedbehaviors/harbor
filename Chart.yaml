@@ -1,0 +1,17 @@
+apiVersion: v2
+name: harbor
+description: Harbor registry wrapper with External Secrets for DB and registry credentials. External PostgreSQL and Redis.
+type: application
+version: 1.0.0
+appVersion: "2.11.0"
+kubeVersion: ">=1.21.0-0"
+keywords:
+  - harbor
+  - registry
+home: https://goharbor.io
+sources:
+  - https://github.com/goharbor/harbor-helm
+dependencies:
+  - name: harbor
+    version: "1.14.0"
+    repository: https://helm.goharbor.io
