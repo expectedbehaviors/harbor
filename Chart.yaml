@@ -3,7 +3,7 @@ name: harbor
 description: Harbor registry wrapper with External Secrets for DB and registry credentials. External PostgreSQL and Redis.
 type: application
 version: 1.0.0
-appVersion: "2.11.0"
+appVersion: "1.0.0"
 kubeVersion: ">=1.21.0-0"
 keywords:
   - harbor
